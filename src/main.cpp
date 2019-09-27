@@ -1,7 +1,11 @@
 #include "codegen.hpp"
 #include "eval.hpp"
 #include "parser.hpp"
+
+#include <fstream>
 #include <iostream>
+#include <istream>
+#include <sstream>
 
 int main(int argc, char *argv[]) {
     if (argc <= 2) {
@@ -31,12 +35,28 @@ int main(int argc, char *argv[]) {
     std::cout << "\ncode:" << std::endl;
     printCode(code);
 
-    // evaluate regex
-    std::cout << "\nresult: ";
-    if (evalRegex(code, "abcdef")) {
-        std::cout << "true" << std::endl;
-    } else {
-        std::cout << "false" << std::endl;
+    // open file
+    std::ifstream ifs(argv[2]);
+    std::string str;
+    if (ifs.fail()) {
+        std::cerr << "failed to open file: " << argv[2] << std::endl;
+        return 2;
+    }
+
+    std::cout << "\nresult:" << std::endl;
+
+    uint64_t line = 0;
+    while (getline(ifs, str)) {
+        line++;
+        const char *p = str.c_str();
+        while (*p != '\0') {
+            // evaluate regex
+            if (evalRegex(code, p)) {
+                std::cout << line << ": " << str << std::endl;
+                break;
+            }
+            p++;
+        }
     }
 
     return 0;
