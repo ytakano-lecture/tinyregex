@@ -40,8 +40,8 @@ namespace orc {
 
 class RegexJIT {
   public:
-    using ObjLayerT = LegacyRTDyldObjectLinkingLayer;
-    using CompileLayerT = LegacyIRCompileLayer<ObjLayerT, SimpleCompiler>;
+    using ObjLayerT = RTDyldObjectLinkingLayer;
+    using CompileLayerT = IRCompileLayer<ObjLayerT, SimpleCompiler>;
 
     RegexJIT()
         : Resolver(createLegacyLookupResolver(

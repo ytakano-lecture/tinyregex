@@ -67,8 +67,9 @@ llvm::Function *makeExample() {
     auto funcType = llvm::FunctionType::get(retType, argType, false);
 
     // create the prototype of function
-    auto funcDef = llvm::Function::Create(
-        funcType, llvm::Function::ExternalLinkage, "__example", *llvmModule);
+    auto funcDef =
+        llvm::Function::Create(funcType, llvm::Function::ExternalLinkage,
+                               "__example", llvmModule.get());
 
     // get arguments
     std::vector<llvm::Value *> args;
