@@ -156,7 +156,7 @@ std::vector<uint16_t> genCode(const std::vector<LCode> &lc) {
             break;
         case OPJMP: {
             // translate the label to corresponding address
-            uint8_t addr = c.code & 0x03fff;
+            uint16_t addr = c.code & 0x03fff;
             addr = c.code & label2addr[addr];
             ret.push_back(OPJMP | addr);
             break;
