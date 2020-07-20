@@ -5,7 +5,11 @@ static bool evalRegex(const std::vector<uint16_t> &code, const char *str,
                       uint32_t PC, uint32_t SP) {
     for (;;) {
         if (str[SP] == '\0') {
-            return false;
+            if ((code[PC] & (3 << 14)) == OPMATCH) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         switch (code[PC] & (3 << 14)) {

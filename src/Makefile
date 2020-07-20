@@ -4,7 +4,7 @@ HDR=parser.hpp codegen.hpp eval.hpp
 all: tinyregex
 
 tinyregex: $(SRC) $(HDR)
-	clang++ -g -O0 -o tinyregex $(SRC)
+	clang++ -std=c++11 -g -O0 -o tinyregex $(SRC)
 
 clean:
 	rm -f tinyregex
