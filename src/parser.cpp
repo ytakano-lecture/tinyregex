@@ -98,6 +98,26 @@ static TRBase *parseRegex(char *expr, int *pos, bool isParen) {
 
             orexpr->right = rhs;
 
+            std::cout << "Parse or" << std::endl;
+            if (typeid(*rhs) == typeid(TRExprs)) {
+                std::cout << "TRExprs" << std::endl;
+                TRExprs *e = dynamic_cast<TRExprs *>(rhs);
+                assert(e);
+                printRegex(e, 0);
+                auto it = e->exprs.rbegin();
+                if (it != e->exprs.rend()) {
+                    auto ptr = *it;
+                    if (typeid(*ptr) == typeid(TRMatch)) {
+                        std::cout << "TRMatch" << std::endl;
+                        e->exprs.pop_back();
+                        ret = new TRExprs;
+                        ret->exprs.push_back(orexpr);
+                        ret->exprs.push_back(new TRMatch);
+                        return ret;
+                    }
+                }
+            }
+
             return orexpr;
         }
         case '+':
